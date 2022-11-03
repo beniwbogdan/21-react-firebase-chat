@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
 import Add from "../img/photo.png"
 import {createUserWithEmailAndPassword, updateProfile} from "firebase/auth";
-import {auth, storage} from "../firebase";
+import {auth, storage, db} from "../firebase";
 import {ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
-import { setDoc } from "firebase/firestore";
+import {doc, setDoc} from "firebase/firestore";
+import {useNavigate} from "react-router-dom";
 
-function Register(props) {
+function Register() {
     const [err, setErr] = useState(false);
-
+    const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(e.target[0].value);
@@ -34,13 +35,22 @@ function Register(props) {
                 },
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-                       await updateProfile(res.user,{
-                          displayName,
-                           photoURL:downloadURL
-                       });
+                        await updateProfile(res.user, {
+                            displayName,
+                            photoURL: downloadURL
+                        });
+                        await setDoc(doc(db, "users", res.user.uid), {
+                            uid: res.user.uid,
+                            displayName,
+                            email,
+                            photoURL: downloadURL
+                        });
+                        await setDoc(doc(db, "userChats", res.user.uid), {});
+                        navigate("/");
                     });
                 }
             );
+
         } catch (err) {
             setErr(true);
         }
