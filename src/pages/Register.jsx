@@ -11,11 +11,11 @@ function Register() {
     const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(e.target[0].value);
-        console.log(e.target[1].value);
-        console.log(e.target[2].value);
-        console.log(e.target[3].files[0]);
-        console.log(auth)
+        // console.log(e.target[0].value);
+        // console.log(e.target[1].value);
+        // console.log(e.target[2].value);
+        // console.log(e.target[3].files[0]);
+        // console.log(auth)
         const displayName = e.target[0].value;
         const email = e.target[1].value;
         const password = e.target[2].value;
@@ -23,8 +23,6 @@ function Register() {
 
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password);
-
-
             const storageRef = ref(storage, displayName);
 
             const uploadTask = uploadBytesResumable(storageRef, file);
@@ -56,7 +54,7 @@ function Register() {
         }
 
 
-    }
+    };
     return (
         <div className={"formContainer"}>
             <div className={"formWrapper"}>

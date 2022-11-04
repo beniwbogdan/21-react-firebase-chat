@@ -1,7 +1,7 @@
 import React from 'react';
-import Add from "../img/photo.png";
+//import Add from "../img/photo.png";
 
-function Login(props) {
+function Login() {
     return (
         <div className={"formContainer"}>
             <div className={"formWrapper"}>
